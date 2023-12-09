@@ -1,5 +1,3 @@
-import getAllProjectsByOwner from "../utils/thegraph-queries/getAllProjectsByOwner";
-import getAllProjects from "../utils/thegraph-queries/getAllProjects";
 import { useState, useEffect } from "react";
 import { useContractWrite, useAccount } from "wagmi";
 import { parseEther, formatEther } from "viem";
@@ -11,8 +9,7 @@ import {
   ArchiveBoxArrowDownIcon,
   ListBulletIcon,
 } from "@heroicons/react/20/solid";
-import TableShimmer from "@/components/TableShimmer";
-import ProjectModal from "@/components/ProjectModal";
+
 
 function classNames(...classes: any[]) {
   return classes.filter(Boolean).join(" ");
@@ -41,8 +38,8 @@ function AttestCollection({ collection, collectionIdx, allProjects }: any) {
       let errorMessage: any = error;
       errorMessage = errorMessage.message;
       console.log(error);
-      if (errorMessage.includes("Vote_AlreadyVoted")) {
-        setErrorMessage("Already voted.");
+      if (errorMessage.includes("Event_AlreadyCreated")) {
+        setErrorMessage("Already created.");
       } else if (errorMessage.includes("User denied")) {
         setErrorMessage("User denied tx.");
       } else {

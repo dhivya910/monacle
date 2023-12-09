@@ -14,25 +14,47 @@ interface Event {
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   if (req.method === 'POST') {
+    const {title, description, startTime, endTime, monaSpaceUrl,hostAddress, airdropAvailable } = req.body;
+        const newEvent = {
+            title,
+            description,
+            startTime,
+            endTime,
+            monaSpaceUrl,
+            hostAddress,
+            airdropAvailable
+          };
+          const event= await createEvent(newEvent)
+          res.status(201).json({ message: 'Event registration created successfully' });
   } 
   else if (req.method === 'GET') {
         if (typeof req.query.id === "undefined") {
             res.status(500).json({ message: 'fail' })
         }
-            const address = req.query.id
-            const user: User = await getUser(address)
-            res.status(200).json({ data: user }) 
+            const _id = req.query.id
+            const event = await getEvent(_id)
+            res.status(200).json({ data: event }) 
+    }
+    else if(req.method === 'DELETE') {
+        const { _id } = req.body;
+        res.status(204).json;
+        await deleteEvent(_id);
     }
 }
 
-function getEvent() {
-
+async function getEvent(_id :number | any) {
+    const db = await connectToDatabase()
+    const event = await db.collection("event").find({_id})
+    return event;
 }
 
-function createEvent() {
-
+async function createEvent(eventData: Event) {
+    const db = await connectToDatabase()
+    const event=await db.collection("event").create({eventData})
+    return event;
 }
 
-function deleteEvent(){
-
+async function deleteEvent(_id:number) {
+    const db = await connectToDatabase()
+    const event=await db.collection("event").delete({_id})
 }

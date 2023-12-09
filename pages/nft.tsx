@@ -42,16 +42,8 @@ export default function NFT() {
   }, []);
 
   return (
-    <Layout
-      pageTitle={
-        loading
-          ? "Loading..."
-          : collection?.token?.data[0]?.CollectionName +
-            " - #" +
-            collection?.token?.data[0]?.NFTId
-      }
-    >
-      {/* Step 1 Panel Start */}
+    <Layout>
+      {/* Step 1 */}
       {!loading ? (
         <div className="mt-0 px-4 py-5 sm:p-6 sm:py-12 grid grid-cols-1 lg:grid-cols-2 lg:gap-x-12 gap-y-5 lg:gap-y-0 bg-white shadow sm:rounded-2xl overflow-hidden">
           <div>

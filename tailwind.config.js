@@ -20,6 +20,12 @@ module.exports = {
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  plugins: [
+    // ...
+    require('@tailwindcss/forms'),
+  ],
+  darkMode: 'class',
+  
   theme: {
     fontFamily: {
       display: ["var(--font-display)", ...defaultTheme.fontFamily.sans],

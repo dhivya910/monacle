@@ -17,12 +17,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         if (typeof req.query.id === "undefined") {
             res.status(500).json({ message: 'fail' })
         }
-            const address = req.query.id;
-            const events = await getEventsCreatedByUser(address);
+            const hostAddress = req.query.id;
+            const events = await getEventsCreatedByUser(hostAddress);
             res.status(200).json({ data: events }) 
     }
 }
 
-function getEventsCreatedByUser(address: string) {
-
+async function getEventsCreatedByUser(address: string |any) {
+    const db = await connectToDatabase()
+    const events = await db.collection("event").findAll({address})
+    return events;
 }
