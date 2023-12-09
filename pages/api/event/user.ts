@@ -13,26 +13,16 @@ interface Event {
  
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 
-  if (req.method === 'POST') {
-  } 
-  else if (req.method === 'GET') {
+  if (req.method === 'GET') {
         if (typeof req.query.id === "undefined") {
             res.status(500).json({ message: 'fail' })
         }
-            const address = req.query.id
-            const user: User = await getUser(address)
-            res.status(200).json({ data: user }) 
+            const address = req.query.id;
+            const events = await getEventsCreatedByUser(address);
+            res.status(200).json({ data: events }) 
     }
 }
 
-function getEvent() {
-
-}
-
-function createEvent() {
-
-}
-
-function deleteEvent(){
+function getEventsCreatedByUser(address: string) {
 
 }
