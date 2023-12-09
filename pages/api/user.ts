@@ -10,25 +10,34 @@ interface User {
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   if (req.method === 'POST') {
-    createUser(req.body)
-
+        const { address, name, email } = req.body;
+        if (address && name && email) {
+            const newUser = {
+              address,
+              name,
+              email,
+            };
+            res.status(201).json({ user: newUser, message: 'User created successfully' });
+        }
   } 
   else if (req.method === 'GET') {
         if (typeof req.query.id === "undefined") {
             res.status(500).json({ message: 'fail' })
         }
             const address = req.query.id
-            const user: User = await getUser(address)
+            const user = await getUser(address)
             res.status(200).json({ data: user }) 
     }
 }
 
 async function getUser(address: string | any) {
     const db = await connectToDatabase()
-    const user: User = await db.collection("users").find({address})
+    const user = await db.collection("users").find({address})
     return user;
 }
 
-function createUser(userData: User) {
-
+async function createUser(userData: User) {
+    const db = await connectToDatabase()
+    const user=await db.collection("users").create({userData})
+    return user;
 }
