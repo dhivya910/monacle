@@ -17,7 +17,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
               name,
               email,
             };
-            res.status(201).json({ user: newUser, message: 'User created successfully' });
+            const user= await createUser(newUser)
+            res.status(201).json({ message: 'User created successfully' });
         }
   } 
   else if (req.method === 'GET') {
