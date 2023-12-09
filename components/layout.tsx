@@ -46,7 +46,7 @@ export default function Layout({
       <div>
         <div className="min-h-full">
           <div className="bg-gray-900 pb-32">
-            <Disclosure as="nav" className="bg-sky-900">
+            <Disclosure as="nav">
               {({ open }) => (
                 <>
                   <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
