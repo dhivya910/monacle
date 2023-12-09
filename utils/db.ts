@@ -12,17 +12,13 @@ if (typeof process.env.MONGODB_DB === "undefined") {
 const MONGODB_URI = process.env.MONGODB_URI;
 const MONGODB_DB = process.env.DB_NAME;
 
-let cachedClient: MongoClient | null = null;
 let cachedDb: Db | null = null;
 
 export async function connectToDatabase() {
     // check the cached.
-    if (cachedClient && cachedDb) {
+    if (cachedDb) {
         // load from cache
-        return {
-            client: cachedClient,
-            db: cachedDb,
-        };
+        return cachedDb;
     }
 
     // Connect to cluster
@@ -31,13 +27,7 @@ export async function connectToDatabase() {
     let db = client.db(MONGODB_DB);
 
     // set cache
-    cachedClient = client;
     cachedDb = db;
 
-    return {
-        client: cachedClient,
-        db: cachedDb,
-    };
+    return db;
 }
-
-export const db = connectToDatabase();
