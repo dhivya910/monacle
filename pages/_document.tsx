@@ -6,7 +6,7 @@ export default function Document() {
       <Head title="MonaCal - Create events in mona space">
         <meta
           name="description"
-          content="a meetup product that allows users to choose a Mona space link, pick a date and time, and schedule a meeting or event"
+          content="A meetup product that allows users to choose a Mona space link, pick a date and time, and schedule a meeting or event"
         />
       </Head>
       <body>
