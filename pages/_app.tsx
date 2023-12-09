@@ -22,7 +22,7 @@ const { chains, publicClient } = configureChains(
   ]
 );
 const { connectors } = getDefaultWallets({
-  appName: "lenft",
+  appName: "MonaCal",
   projectId: "be406d96fe3535516143cb4e26e5c857",
   chains,
 });
