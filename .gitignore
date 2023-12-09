@@ -1,0 +1,6 @@
+.DS_Store 
+.keys
+dist
+# firebase emulator logs
+*-debug.log
+deno.lock

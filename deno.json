@@ -1,0 +1,44 @@
+{
+  "tasks": {
+    "dev": "deno run -A -q dev.ts",
+    "start": "deno run -A server.tsx",
+    "test": "deno test -A --unstable"
+  },
+  "fmt": {
+    "files": {
+      "exclude": [
+        "dist",
+        "vendor"
+      ]
+    }
+  },
+  "lint": {
+    "rules": {
+      "exclude": [
+        "import-prefix-missing"
+      ]
+    },
+    "files": {
+      "exclude": [
+        "dist",
+        "vendor"
+      ]
+    }
+  },
+  "compilerOptions": {
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "dom.asynciterable",
+      "deno.ns",
+      "deno.unstable"
+    ],
+    "types": [
+      "https://deno.land/x/aleph@1.0.0-beta.21/types.d.ts",
+      "./types.d.ts"
+    ],
+    "jsx": "react-jsx",
+    "jsxImportSource": "https://esm.sh/react@18.2.0"
+  },
+  "importMap": "./import_map.json"
+}
