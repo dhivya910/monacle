@@ -41,7 +41,7 @@ export default function Layout({
   return (
     <>
       <Head>
-        <title>{pageTitle + " | MonaCal"}</title>
+        <title>{pageTitle + " | MonaCle"}</title>
       </Head>
       <div className="bg-gray-900">
         <div className="min-h-full">
