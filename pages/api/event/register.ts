@@ -1,4 +1,4 @@
-import { connectToDatabase } from "@/utils/db";
+import { db } from "@/utils/db";
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 interface RegisterEvents {
@@ -15,22 +15,46 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             eventId,
           };
           const registeredEvent= await registerEvent(newEventRegistration)
-          res.status(201).json({ message: 'Event registration created successfully' });
+          const event = await getEvent(eventId)
+          res.status(201).json({ data: event });
     }
   else if (req.method === 'DELETE') {
             const { _id } = req.body;
-            res.status(204).json;
             await deleteRegistration(_id);
+            res.status(204).json;
     }
+    else if (req.method === 'GET') {
+        const { id } = req.query;
+        const events = getEventsRegisteredByUser(id)
+        res.status(200).json({ data: events }) 
+}
+}
+async function getEvent(_id :number | any) {
+    const event = await db.collection("events").find({_id})
+    return event;
 }
 
 async function registerEvent(registeredEventData:RegisterEvents) {
-    const db = await connectToDatabase()
     const registeredEvent = await db.collection("registrations").create({registeredEventData})
     return registeredEvent;
 }
 
 async function deleteRegistration(_id:number) {
-    const db = await connectToDatabase()
     const registeredEvent=await db.collection("registrations").delete({_id})
+}
+
+async function getEventsRegisteredByUser(address:string) {
+    let events = []
+    const registrations = await db.collection("registrations").find({address}).toArray();
+    console.log(registrations)
+
+    for (const reg of registrations) {
+            const { _id, eventId, address} = reg;
+            console.log(eventId)
+            const event = await db.collection("events").find({_id: `ObjectId(${eventId})`});
+            events.push(event)
+    }
+
+    return events
+    
 }

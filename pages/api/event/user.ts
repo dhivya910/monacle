@@ -1,4 +1,4 @@
-import { connectToDatabase } from "@/utils/db";
+import { db } from "@/utils/db";
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 interface Event {
@@ -18,13 +18,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             res.status(500).json({ message: 'fail' })
         }
             const hostAddress = req.query.id;
+            console.log("host" , hostAddress)
             const events = await getEventsCreatedByUser(hostAddress);
             res.status(200).json({ data: events }) 
     }
 }
 
 async function getEventsCreatedByUser(address: string |any) {
-    const db = await connectToDatabase()
-    const events = await db.collection("event").findAll({address})
+    const events = await db.collection("events").find({address})
     return events;
 }

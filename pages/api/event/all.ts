@@ -1,4 +1,4 @@
-import { connectToDatabase } from "@/utils/db";
+import { db } from "@/utils/db";
 import type { NextApiRequest, NextApiResponse } from 'next'
  
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -9,8 +9,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 }
 
-async function getAllEvents() {
-    const db = await connectToDatabase()
-    const events = await db.collection("event").find({}).toArray()
+async function getAllEvents() { 
+    const events = await db.collection("events").find({}).sort({startTime: -1}).toArray();
     return events;
 }

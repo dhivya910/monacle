@@ -1,35 +1,30 @@
 import { useState, useEffect } from "react";
 import Layout from "@/components/layout";
 
-const people = [
-  {
-    name: 'Leonard Krasner',
-    role: 'Senior Designer',
-    imageUrl: "/space1.png",
-    MonaSpaceUrl: '#',
-  },
-  {
-    name: 'Leonard Krasner',
-    role: 'Senior Designer',
-    imageUrl: "/space2.png",
-    MonaSpaceUrl: '#',
-  },  
-  {
-    name: 'Leonard Krasner',
-    role: 'Senior Designer',
-    imageUrl: "/space3.png",
-    MonaSpaceUrl: '#',
-  },  
-  {
-    name: 'Leonard Krasner',
-    role: 'Senior Designer',
-    imageUrl: "/space4.png",
-    MonaSpaceUrl: '#',
-  },
-]
 
 export default function AllEventsPage() {
   const [allEvents, setAllEvents] = useState([]);
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch("https://api.hackathon.monaverse.com/collectibles?sort=popularity%3Adesc");
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      setAllEvents(data);
+      console.log(data)
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  
 
   return (
     <Layout pageTitle="">

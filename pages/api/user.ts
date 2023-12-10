@@ -1,4 +1,4 @@
-import { connectToDatabase } from "@/utils/db";
+import { db } from "@/utils/db";
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 interface User {
@@ -32,13 +32,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 }
 
 async function getUser(address: string | any) {
-    const db = await connectToDatabase()
     const user = await db.collection("users").find({address})
     return user;
 }
 
 async function createUser(userData: User) {
-    const db = await connectToDatabase()
     const user=await db.collection("users").create({userData})
     return user;
 }
