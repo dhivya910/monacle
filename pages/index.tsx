@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
 import Layout from "@/components/layout";
 import { useAccount } from "wagmi";
+import { useRouter } from "next/router";
+
 
 export default function Index() {
   const [events, setAllEvents] = useState([]);
   const { address } = useAccount();
   const [tab, setTab] = useState<"allEvents" | "myEvents">("allEvents");
+  const router = useRouter()
 
   const fetchEvents = async (url: string) => {
     try {
@@ -58,6 +61,8 @@ export default function Index() {
   const handleRegistration = (eventId) => {
     console.log(address)
     if (address) {
+      postEvent(eventId, address)
+    } else {
 
     }
 
@@ -75,6 +80,8 @@ export default function Index() {
                 <h5 className="text-md tracking-tight text-white pt-2">With MonaCal, Schedule events on the MONAverse without any hassle. </h5>
               </div>
               <div>
+
+              <a onClick={() => {router.push("/new-event")}} className  ={"inline-block m-6 mt-8 p-3 rounded-lg bg-gray-100 hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white"} aria-current="page">Schedule an event</a>
                 
               {/* <ul className ="flex flex-wrap text-sm font-medium justify-center pt-5 text-center text-gray-500 dark:text-gray-400">
                 <li className ="me-2">
