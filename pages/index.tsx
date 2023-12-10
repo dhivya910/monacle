@@ -58,7 +58,7 @@ export default function Index() {
     fetchEvents("/api/event/all")
   }, [tab]);
 
-  const handleRegistration = (eventId) => {
+  const handleRegistration = (eventId: any) => {
     console.log(address)
     if (address) {
       postEvent(eventId, address)
