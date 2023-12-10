@@ -43,14 +43,14 @@ export default function Layout({
       <Head>
         <title>{pageTitle + " | MonaCal"}</title>
       </Head>
-      <div>
+      <div className="bg-gray-900">
         <div className="min-h-full">
           <div className="bg-gray-900 pb-32">
             <Disclosure as="nav">
               {({ open }) => (
                 <>
                   <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                    <div className="border-b border-sky-700">
+                    <div className="">
                       <div className="flex h-16 items-center justify-between px-4 sm:px-0">
                         <div className="flex items-center">
                           <div className="flex-shrink-0 flex items-center justify-between">
@@ -69,13 +69,13 @@ export default function Layout({
                 </>
               )}
             </Disclosure>
-            <header className="py-10 mt-2">
+            {/* <header className="py-10 mt-2">
               <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <h1 className="text-3xl font-bold tracking-tight text-white">
                   {pageTitle === "Home" ? "" : pageTitle}
                 </h1>
               </div>
-            </header>
+            </header> */}
           </div>
 
           <main className="-mt-32">
