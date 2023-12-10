@@ -81,7 +81,7 @@ export default function Index() {
               </div>
               <div>
 
-              <a onClick={() => {router.push("/new-event")}} className  ={"inline-block m-6 mt-8 p-3 rounded-lg bg-gray-100 hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white"} aria-current="page">Schedule an event</a>
+              <a onClick={() => {router.push("/spaces")}} className  ={"inline-block m-6 mt-8 p-3 rounded-lg bg-gray-100 hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white"} aria-current="page">Schedule an event</a>
                 
               {/* <ul className ="flex flex-wrap text-sm font-medium justify-center pt-5 text-center text-gray-500 dark:text-gray-400">
                 <li className ="me-2">

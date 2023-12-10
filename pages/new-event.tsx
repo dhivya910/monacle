@@ -1,19 +1,15 @@
 import { PhotoIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 import * as React from "react";
 import Layout from "@/components/layout";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 
 export default function NewEvent() {
   return (
-    <Layout pageTitle="">
+    <Layout pageTitle="Create Event">
       <form>
         <div className="space-y-12">
           <div className="border-b border-white/10 pb-12">
             <h2 className="text-base font-semibold leading-7 text-white">
-              Create Event
+              Create an Event
             </h2>
             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
               <div className="sm:col-span-4">
