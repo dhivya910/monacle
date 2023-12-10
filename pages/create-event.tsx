@@ -14,10 +14,16 @@ export default function NewEvent() {
    const [description, setDescription] = useState("");
    const [date, setDate] = useState("");
    const [time, setTime] = useState("");
+   const [msg, setMsg] = useState("");
 
 const handleSubmit = async (e) => {
-  
+setMsg("")
 e.preventDefault();
+if (!address) {
+setMsg("Please connect to your Wallet to proceed.")
+} else {
+
+
 const startTime = new Date(`${date} ${time}`).toISOString()
   try {
     const response = await fetch("/api/event", {
@@ -37,7 +43,7 @@ const startTime = new Date(`${date} ${time}`).toISOString()
   } catch (error) {
     console.error("Error fetching data:", error);
   }
-}
+}}
 
 
 
@@ -64,6 +70,7 @@ const startTime = new Date(`${date} ${time}`).toISOString()
                     name="title"
                     id="title"
                     value={title}
+                    onChange={(e) => setTitle(e.target.value)}
                     autoComplete="given-title"
                     className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
                   />
@@ -85,6 +92,7 @@ const startTime = new Date(`${date} ${time}`).toISOString()
                     id="description"
                     required
                     value={description}
+                    onChange={(e) => setDescription(e.target.value)}
                     autoComplete="description"
                     className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
                   />
@@ -103,6 +111,7 @@ const startTime = new Date(`${date} ${time}`).toISOString()
                     type="date"
                     name="title"
                     value={date}
+                    onChange={(e) => setDate(e.target.value)}
                     id="title"
                     autoComplete="given-title"
                     required
@@ -123,6 +132,7 @@ const startTime = new Date(`${date} ${time}`).toISOString()
                     type="time"
                     name="title"
                     value={time}
+                    onChange={(e) => setTime(e.target.value)}
                     id="title"
                     autoComplete="given-title"
                     required
@@ -147,6 +157,7 @@ const startTime = new Date(`${date} ${time}`).toISOString()
             >
               Create event
             </button>
+            <p className="text-sm text-white">{msg}</p>
           </div>
         </div>
       </form>
