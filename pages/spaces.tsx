@@ -49,7 +49,7 @@ useEffect(() => {
           role="list"
           className="mx-auto mt-20 grid max-w-2xl grid-cols-1 gap-6 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3 lg:gap-8"
         >
-          {spaces.map((space) => (
+          {spaces.map((space: any) => (
             <li key={space.title} className=" bg-gray-800 px-8 py-10 hover:bg-gray-500" onClick={() => {redirectTo(space.url.explore)}}>
               <img className="mx-auto h-48 w-48 md:h-56 md:w-56" src={space.image} alt="" />
               <h3 className="mt-6 text-base font-semibold leading-7 tracking-tight text-white">{space.title}</h3>

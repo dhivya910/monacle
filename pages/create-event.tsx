@@ -16,7 +16,7 @@ export default function NewEvent() {
    const [time, setTime] = useState("");
    const [msg, setMsg] = useState("");
 
-const handleSubmit = async (e) => {
+const handleSubmit = async (e: any) => {
 setMsg("")
 e.preventDefault();
 if (!address) {

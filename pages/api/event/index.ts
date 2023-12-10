@@ -21,8 +21,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const airdropAvailable = false
     let thumbnail = ""
     const collectibles = await fetch("https://api.hackathon.monaverse.com/collectibles?sort=popularity%3Adesc")
-    const data = await collectibles.json()["data"]
-for (const sp of data) {
+    const data = await collectibles.json()
+
+for (const sp of data["data"]) {
     if (sp.url.explore.split('/')[4] == space)
     thumbnail = sp.image;
 }
