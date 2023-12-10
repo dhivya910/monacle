@@ -41,7 +41,7 @@ export default function Layout({
   return (
     <>
       <Head>
-        <title>{pageTitle + " | MonaCal"}</title>
+        <title>{pageTitle + " | MonaCle"}</title>
       </Head>
       <div>
         <div className="min-h-full">
@@ -55,7 +55,7 @@ export default function Layout({
                         <div className="flex items-center">
                           <div className="flex-shrink-0 flex items-center justify-between">
                             <h1 className="text-white text-3xl ml-3 mt-3">
-                              <span className="font-bold">MonaCal</span>
+                              <span className="font-bold">MonaCle</span>
                             </h1>
                           </div>
                         </div>
