@@ -8,12 +8,12 @@ import {
   lightTheme,
 } from "@rainbow-me/rainbowkit";
 import { configureChains, createConfig, WagmiConfig } from "wagmi";
-import { goerli, polygonMumbai } from "wagmi/chains";
+import { polygonMumbai } from "wagmi/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
 
 const { chains, publicClient } = configureChains(
-  [goerli, polygonMumbai],
+  [polygonMumbai],
   [
     alchemyProvider({
       apiKey: process.env.NEXT_PUBLIC_ALCHEMY_KEY,
@@ -38,8 +38,8 @@ export default function App({ Component, pageProps }: AppProps) {
     <WagmiConfig config={wagmiConfig}>
       <RainbowKitProvider
         theme={lightTheme({
-          accentColor: "#4f46e5",
-          accentColorForeground: "white",
+          accentColor: "#ffffff",
+          accentColorForeground: "black",
           borderRadius: "medium",
           fontStack: "system",
           overlayBlur: "small",

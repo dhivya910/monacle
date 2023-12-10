@@ -1,69 +1,150 @@
 import { useState, useEffect } from "react";
 import Layout from "@/components/layout";
-import Registration from "@/components/registration"
+import { useAccount } from "wagmi";
+import { useRouter } from "next/router";
 
-const people = [
-  {
-    name: 'Leonard Krasner',
-    role: 'Senior Designer',
-    imageUrl:
-      'https://images.unsplash.com/photo-1519345182560-3f2917c472ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80',
-    twitterUrl: '#',
-    linkedinUrl: '#',
-  },
-  // More people...
-]
 
-export default function AllEventsPage() {
-  const [allEvents, setAllEvents] = useState([]);
+export default function Index() {
+  const [events, setAllEvents] = useState([]);
+  const { address } = useAccount();
+  const [tab, setTab] = useState<"allEvents" | "myEvents">("allEvents");
+  const router = useRouter()
+
+  const fetchEvents = async (url: string) => {
+    try {
+      const response = await fetch(url);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      setAllEvents(data.data);
+      console.log(data)
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const postEvent = async (eventId: string, address: string) => {
+    try {
+      const response = await fetch("/api/event/register", {
+        method: "POST", 
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: {eventId, address}
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
+
+  useEffect(() => {
+    fetchEvents("/api/event/all");
+  }, []);
+
+  useEffect(() => {
+    if (tab == "allEvents")
+    fetchEvents("/api/event/all");
+    else 
+    fetchEvents("/api/event/all")
+  }, [tab]);
+
+  const handleRegistration = (eventId) => {
+    console.log(address)
+    if (address) {
+      postEvent(eventId, address)
+    } else {
+
+    }
+
+  }
 
   return (
-    <Layout pageTitle="Upcoming Events">
-    <Registration></Registration>
-    <div className="bg-gray-900 py-24 sm:py-32">
+    <Layout pageTitle="All Events">
+
+    <div className="bg-gray-900">
       <div className="mx-auto max-w-7xl px-6 text-center lg:px-8">
-        <div className="mx-auto max-w-2xl">
-          <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">Meet our team</h2>
-          <p className="mt-4 text-lg leading-8 text-gray-400">
-            We’re a dynamic group of individuals who are passionate about what we do.
-          </p>
-        </div>
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <h1 className="text-5xl font-bold tracking-tight text-white py-6">
+                  Meetups at MONAverse made easier 💯
+                </h1>
+                <h5 className="text-md tracking-tight text-white pt-2">With MonaCal, Schedule events on the MONAverse without any hassle. </h5>
+              </div>
+              <div>
+
+              <a onClick={() => {router.push("/new-event")}} className  ={"inline-block m-6 mt-8 p-3 rounded-lg bg-gray-100 hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white"} aria-current="page">Schedule an event</a>
+                
+              {/* <ul className ="flex flex-wrap text-sm font-medium justify-center pt-5 text-center text-gray-500 dark:text-gray-400">
+                <li className ="me-2">
+                    <a onClick={() => setTab("allEvents")} className  ={tab == "allEvents" ? "inline-block px-4 py-3 text-white bg-gray-800 rounded-lg active": "inline-block px-4 py-3 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white"} aria-current="page">All Events</a>
+                </li>
+                <li className ="me-2">
+                    <a onClick={() => setTab("myEvents")}  className  ={tab == "myEvents" ? "inline-block px-4 py-3 text-white bg-gray-800 rounded-lg active": "inline-block px-4 py-3 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white"}>My Events</a>
+                </li>
+                </ul> */}
+            </div>  
+            <h1 className="text-xl tracking-tight text-white pt-20">Happening in Monaverse... </h1>
         <ul
           role="list"
-          className="mx-auto mt-20 grid max-w-2xl grid-cols-1 gap-6 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3 lg:gap-8"
+          className="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-6 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3 lg:gap-8"
         >
-          {people.map((person) => (
-            <li key={person.name} className="rounded-2xl bg-gray-800 px-8 py-10">
-              <img className="mx-auto h-48 w-48 rounded-full md:h-56 md:w-56" src={person.imageUrl} alt="" />
-              <h3 className="mt-6 text-base font-semibold leading-7 tracking-tight text-white">{person.name}</h3>
-              <p className="text-sm leading-6 text-gray-400">{person.role}</p>
-              <ul role="list" className="mt-6 flex justify-center gap-x-6">
-                <li>
-                  <a href={person.twitterUrl} className="text-gray-400 hover:text-gray-300">
-                    <span className="sr-only">Twitter</span>
-                    <svg className="h-5 w-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M6.29 18.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0020 3.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.073 4.073 0 01.8 7.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 010 16.407a11.616 11.616 0 006.29 1.84" />
-                    </svg>
-                  </a>
-                </li>
-                <li>
-                  <a href={person.linkedinUrl} className="text-gray-400 hover:text-gray-300">
-                    <span className="sr-only">LinkedIn</span>
-                    <svg className="h-5 w-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
-                      <path
-                        fillRule="evenodd"
-                        d="M16.338 16.338H13.67V12.16c0-.995-.017-2.277-1.387-2.277-1.39 0-1.601 1.086-1.601 2.207v4.248H8.014v-8.59h2.559v1.174h.037c.356-.675 1.227-1.387 2.526-1.387 2.703 0 3.203 1.778 3.203 4.092v4.711zM5.005 6.575a1.548 1.548 0 11-.003-3.096 1.548 1.548 0 01.003 3.096zm-1.337 9.763H6.34v-8.59H3.667v8.59zM17.668 1H2.328C1.595 1 1 1.581 1 2.298v15.403C1 18.418 1.595 19 2.328 19h15.34c.734 0 1.332-.582 1.332-1.299V2.298C19 1.581 18.402 1 17.668 1z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </a>
-                </li>
+          {tab == "allEvents" ? 
+          events.map((event) => (
+                  <li key={event.title} className=" bg-gray-800 px-8 py-10">
+                    <img className="mx-auto h-48 w-48 md:h-56 md:w-56" src={event.thumbnail} alt="" />
+                    <h3 className="mt-6 text-base font-semibold leading-7 tracking-tight text-white">{event.title}</h3>
+                    <p className="text-sm leading-6 text-gray-400 truncate ...">{event.description}</p>
+                    <ul role="list" className="mt-4 flex justify-center text-white">
+                      <div className="flex">
+                      <svg class="h-5 w-5 mx-1 text-white"  width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <rect x="4" y="5" width="16" height="16" rx="2" />  <line x1="16" y1="3" x2="16" y2="7" />  <line x1="8" y1="3" x2="8" y2="7" />  <line x1="4" y1="11" x2="20" y2="11" />  <line x1="11" y1="15" x2="12" y2="15" />  <line x1="12" y1="15" x2="12" y2="18" /></svg>
+                        <p className="text-sm">{new Date(event.startTime).toString().split(" ").slice(0,4).join(" ")}</p>
+                      </div>
+
+                      <div className="flex mx-2">
+                      <svg class="h-5 w-5 mx-1 text-white"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <circle cx="12" cy="12" r="7" />  <polyline points="12 9 12 12 13.5 13.5" />  <path d="M16.51 17.35l-.35 3.83a2 2 0 0 1-2 1.82H9.83a2 2 0 0 1-2-1.82l-.35-3.83m.01-10.7l.35-3.83A2 2 0 0 1 9.83 1h4.35a2 2 0 0 1 2 1.82l.35 3.83" /></svg>
+                      <p className="text-sm">{new Date(event.startTime).toString().split(" ")[4]}</p>
+                      </div> 
+                    
+                    </ul>
+                    { new Date(event.startTime) > new Date() ?
+                        <button type="button" class="text-gray-900 bg-gray-100 font-medium rounded-full text-sm mt-4 px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700" >Register Now</button>
+                    : <p className="bg-gray-700 text-sm my-4 py-1"> This Event is expired.</p>} 
+                        </li>
+          )) : events.map((event) => (
+            <li key={event.title} className=" bg-gray-800 px-8 py-10">
+              <img className="mx-auto h-48 w-48 md:h-56 md:w-56" src={event.thumbnail} alt="" />
+              <h3 className="mt-6 text-base font-semibold leading-7 tracking-tight text-white">{event.title}</h3>
+              <p className="text-sm leading-6 text-gray-400 truncate ...">{event.description}</p>
+              <ul role="list" className="mt-4 flex justify-center text-white">
+                <div className="flex">
+                <svg class="h-5 w-5 mx-1 text-white"  width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <rect x="4" y="5" width="16" height="16" rx="2" />  <line x1="16" y1="3" x2="16" y2="7" />  <line x1="8" y1="3" x2="8" y2="7" />  <line x1="4" y1="11" x2="20" y2="11" />  <line x1="11" y1="15" x2="12" y2="15" />  <line x1="12" y1="15" x2="12" y2="18" /></svg>
+                  <p className="text-sm">{new Date(event.startTime).toString().split(" ").slice(0,4).join(" ")}</p>
+                </div>
+
+                <div className="flex mx-2">
+                <svg class="h-5 w-5 mx-1 text-white"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <circle cx="12" cy="12" r="7" />  <polyline points="12 9 12 12 13.5 13.5" />  <path d="M16.51 17.35l-.35 3.83a2 2 0 0 1-2 1.82H9.83a2 2 0 0 1-2-1.82l-.35-3.83m.01-10.7l.35-3.83A2 2 0 0 1 9.83 1h4.35a2 2 0 0 1 2 1.82l.35 3.83" /></svg>
+                <p className="text-sm">{new Date(event.startTime).toString().split(" ")[4]}</p>
+                </div> 
+              
               </ul>
-            </li>
-          ))}
+              { new Date(event.startTime) > new Date() ?
+                  <button type="button" class="text-gray-900 bg-gray-100 font-medium rounded-full text-sm mt-4 px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700" >Join Now</button>
+              : <p className="bg-gray-700 text-sm my-4 py-1"> This Event is expired.</p>} 
+                  </li>
+    )) }
         </ul>
       </div>
     </div>
     </Layout>
+
   );
 }

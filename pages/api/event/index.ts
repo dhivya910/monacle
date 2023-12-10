@@ -1,4 +1,4 @@
-import { connectToDatabase } from "@/utils/db";
+import { db } from "@/utils/db";
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 interface Event {
@@ -43,18 +43,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 }
 
 async function getEvent(_id :number | any) {
-    const db = await connectToDatabase()
-    const event = await db.collection("event").find({_id})
+    const event = await db.collection("events").find({_id})
     return event;
 }
 
 async function createEvent(eventData: Event) {
-    const db = await connectToDatabase()
-    const event=await db.collection("event").create({eventData})
+    const event=await db.collection("events").create({eventData})
     return event;
 }
 
 async function deleteEvent(_id:number) {
-    const db = await connectToDatabase()
-    const event=await db.collection("event").delete({_id})
+    const event=await db.collection("events").delete({_id})
 }
