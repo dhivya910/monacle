@@ -57,7 +57,7 @@ export default function Layout({
                           <div className="flex-shrink-0 flex items-center justify-between">
                             <h1 className="text-white text-3xl ml-3 mt-3">
                               <span className="font-bold">
-                                <Image src="Monacle.png" alt="Monacle" width="200" />
+                                <img src="Monacle.png" alt="Monacle" width="200" />
                               </span>
                             </h1>
                           </div>

@@ -52,7 +52,7 @@ useEffect(() => {
         >
           {spaces.map((space: any) => (
             <li key={space.title} className=" bg-gray-800 px-8 py-10 hover:bg-gray-500" onClick={() => {redirectTo(space.url.explore)}}>
-              <Image className="mx-auto h-48 w-48 md:h-56 md:w-56" src={space.image} alt="" />
+              <img className="mx-auto h-48 w-48 md:h-56 md:w-56" src={space.image} alt="" />
               <h3 className="mt-6 text-base font-semibold leading-7 tracking-tight text-white">{space.title}</h3>
               <p className="text-sm leading-6 text-gray-400">{space.description}</p>
               <ul role="list" className="mt-6 flex justify-center gap-x-6">
