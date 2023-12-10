@@ -2,13 +2,16 @@ import { useState, useEffect } from "react";
 import Layout from "@/components/layout";
 import { useAccount } from "wagmi";
 import { useRouter } from "next/router";
-
+import Success from "@/components/success";
+import Alert from "@/components/alert";
+import Image from "next/image";
 
 export default function Index() {
   const [events, setAllEvents] = useState([]);
+  const [isSuccess, setisSuccess] = useState(false);
   const { address } = useAccount();
   const [tab, setTab] = useState<"allEvents" | "myEvents">("allEvents");
-  const router = useRouter()
+  const router = useRouter();
 
   const fetchEvents = async (url: string) => {
     try {
@@ -20,7 +23,7 @@ export default function Index() {
 
       const data = await response.json();
       setAllEvents(data.data);
-      console.log(data)
+      console.log(data);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -29,11 +32,11 @@ export default function Index() {
   const postEvent = async (eventId: string, address: string) => {
     try {
       const response = await fetch("/api/event/register", {
-        method: "POST", 
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify( {eventId , address})
+        body: JSON.stringify({ eventId, address }),
       });
 
       if (!response.ok) {
@@ -41,43 +44,50 @@ export default function Index() {
       }
 
       const data = await response.json();
-
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  }
+  };
 
   useEffect(() => {
     fetchEvents("/api/event/all");
   }, []);
 
   useEffect(() => {
-    if (tab == "allEvents")
-    fetchEvents("/api/event/all");
-    else 
-    fetchEvents("/api/event/all")
+    if (tab == "allEvents") fetchEvents("/api/event/all");
+    else fetchEvents("/api/event/all");
   }, [tab]);
 
   const handleRegistration = async (eventId: string) => {
-    await postEvent(eventId, "address")
-  }
+    await postEvent(eventId, "address");
+  };
 
   return (
     <Layout pageTitle="All Events">
+      <div className="bg-gray-900">
+        <div className="mx-auto max-w-7xl px-6 text-center lg:px-8">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <h1 className="text-5xl font-bold tracking-tight text-white py-6">
+              Meetups at MONAverse made easier 💯
+            </h1>
+            <h5 className="text-md tracking-tight text-white pt-2">
+              With MonaCle, Schedule events on the MONAverse without any hassle.{" "}
+            </h5>
+          </div>
+          <div>
+            <a
+              onClick={() => {
+                router.push("/spaces");
+              }}
+              className={
+                "inline-block m-6 mt-8 p-3 rounded-lg bg-gray-100 hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white"
+              }
+              aria-current="page"
+            >
+              Schedule an event
+            </a>
 
-    <div className="bg-gray-900">
-      <div className="mx-auto max-w-7xl px-6 text-center lg:px-8">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <h1 className="text-5xl font-bold tracking-tight text-white py-6">
-                  Meetups at MONAverse made easier 💯
-                </h1>
-                <h5 className="text-md tracking-tight text-white pt-2">With MonaCal, Schedule events on the MONAverse without any hassle. </h5>
-              </div>
-              <div>
-
-              <a onClick={() => {router.push("/spaces")}} className  ={"inline-block m-6 mt-8 p-3 rounded-lg bg-gray-100 hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white"} aria-current="page">Schedule an event</a>
-                
-              {/* <ul className ="flex flex-wrap text-sm font-medium justify-center pt-5 text-center text-gray-500 dark:text-gray-400">
+            {/* <ul className ="flex flex-wrap text-sm font-medium justify-center pt-5 text-center text-gray-500 dark:text-gray-400">
                 <li className ="me-2">
                     <a onClick={() => setTab("allEvents")} className  ={tab == "allEvents" ? "inline-block px-4 py-3 text-white bg-gray-800 rounded-lg active": "inline-block px-4 py-3 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white"} aria-current="page">All Events</a>
                 </li>
@@ -260,11 +270,10 @@ export default function Index() {
                       </p>
                     )}
                   </li>
-    )) }
-        </ul>
+                ))}
+          </ul>
+        </div>
       </div>
-    </div>
     </Layout>
-
   );
 }

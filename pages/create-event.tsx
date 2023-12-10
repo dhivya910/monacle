@@ -143,7 +143,7 @@ const startTime = new Date(`${date} ${time}`).toISOString()
               
             </div>
           </div>
-
+          <div className="col">
           <div className="mt-6 flex items-center justify-end gap-x-6">
             <button
               type="button"
@@ -158,6 +158,7 @@ const startTime = new Date(`${date} ${time}`).toISOString()
               Create event
             </button>
             <p className="text-sm text-white">{msg}</p>
+            </div>
           </div>
         </div>
       </form>
