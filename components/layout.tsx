@@ -11,6 +11,7 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import Image from "next/image";
 
 const navigation = [
   { name: "Home", href: "/home", icon: HomeIcon, current: true },
@@ -56,7 +57,7 @@ export default function Layout({
                           <div className="flex-shrink-0 flex items-center justify-between">
                             <h1 className="text-white text-3xl ml-3 mt-3">
                               <span className="font-bold">
-                                <img src="Monacle.png" alt="Monacle" width="200" />
+                                <Image src="Monacle.png" alt="Monacle" width="200" />
                               </span>
                             </h1>
                           </div>
