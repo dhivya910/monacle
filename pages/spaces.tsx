@@ -26,7 +26,7 @@ export default function AllEventsPage() {
 
 const redirectTo = (spaceUrl: string) => {
   const space = spaceUrl.split('/')[4];
-  router.push(`/new-event?space=${space}`)
+  router.push(`/create-event?space=${space}`)
 }
 
 useEffect(() => {
