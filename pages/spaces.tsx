@@ -1,9 +1,12 @@
 import { useState, useEffect } from "react";
 import Layout from "@/components/layout";
+import { useRouter } from "next/router";
 
 
 export default function AllEventsPage() {
+  const router = useRouter()
   const [spaces, setSpaces] = useState([]);
+  // const [space, selectSpace] = 
 
   const fetchData = async () => {
     try {
@@ -20,7 +23,14 @@ export default function AllEventsPage() {
       console.error("Error fetching data:", error);
     }
   };
-  useEffect(() => {
+
+
+const redirectTo = (spaceUrl: string) => {
+  const space = spaceUrl.split('/')[4];
+  router.push(`/new-event?space=${space}`)
+}
+
+useEffect(() => {
     fetchData();
   }, []);
 
@@ -41,7 +51,7 @@ export default function AllEventsPage() {
           className="mx-auto mt-20 grid max-w-2xl grid-cols-1 gap-6 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3 lg:gap-8"
         >
           {spaces.map((space) => (
-            <li key={space.title} className=" bg-gray-800 px-8 py-10 hover:bg-gray-500">
+            <li key={space.title} className=" bg-gray-800 px-8 py-10 hover:bg-gray-500" onClick={() => {redirectTo(space.url.explore)}}>
               <img className="mx-auto h-48 w-48 md:h-56 md:w-56" src={space.image} alt="" />
               <h3 className="mt-6 text-base font-semibold leading-7 tracking-tight text-white">{space.title}</h3>
               <p className="text-sm leading-6 text-gray-400">{space.description}</p>
