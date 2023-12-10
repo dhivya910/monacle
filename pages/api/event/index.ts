@@ -4,11 +4,12 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 interface Event {
     title: string;
     description: string;
-    startTime: Date;
-    endTime: Date;
+    startTime: string;
+    endTime: string;
     monaSpaceUrl: string;
     hostAddress: string;
     airdropAvailable: boolean;
+    thumbnail: string;
 }
  
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -18,6 +19,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const endTime = ""
     const monaSpaceUrl = `https://monaverse.com/spaces/${space}`
     const airdropAvailable = false
+    let thumbnail = ""
+    const collectibles = await fetch("https://api.hackathon.monaverse.com/collectibles?sort=popularity%3Adesc")
+    const data = await collectibles.json()["data"]
+for (const sp of data) {
+    if (sp.url.explore.split('/')[4] == space)
+    thumbnail = sp.image;
+}
+
         const newEvent = {
             title,
             description,
@@ -25,7 +34,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             endTime,
             monaSpaceUrl,
             hostAddress: address,
-            airdropAvailable
+            airdropAvailable,
+            thumbnail,
           };
           const event= await createEvent(newEvent)
           res.status(201).json({ message: 'Event registration created successfully' });
@@ -51,7 +61,7 @@ async function getEvent(_id :number | any) {
 }
 
 async function createEvent(eventData: Event) {
-    const event=await db.collection("events").create({eventData})
+    const event=await db.collection("events").insertOne(eventData)
     return event;
 }
 

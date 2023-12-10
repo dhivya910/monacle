@@ -31,7 +31,7 @@ const startTime = new Date(`${date} ${time}`).toISOString()
       headers: {
         "Content-Type": "application/json",
       },
-      body: {title, description, startTime, address, space}
+      body: JSON.stringify({title, description, startTime, address, space})
     });
 
     if (!response.ok) {
