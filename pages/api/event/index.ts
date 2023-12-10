@@ -14,14 +14,17 @@ interface Event {
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   if (req.method === 'POST') {
-    const {title, description, startTime, endTime, monaSpaceUrl,hostAddress, airdropAvailable } = req.body;
+    const {title, description, startTime, address, space } = req.body;
+    const endTime = ""
+    const monaSpaceUrl = `https://monaverse.com/spaces/${space}`
+    const airdropAvailable = false
         const newEvent = {
             title,
             description,
             startTime,
             endTime,
             monaSpaceUrl,
-            hostAddress,
+            hostAddress: address,
             airdropAvailable
           };
           const event= await createEvent(newEvent)

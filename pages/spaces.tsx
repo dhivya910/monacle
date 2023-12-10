@@ -6,7 +6,6 @@ import { useRouter } from "next/router";
 export default function AllEventsPage() {
   const router = useRouter()
   const [spaces, setSpaces] = useState([]);
-  // const [space, selectSpace] = 
 
   const fetchData = async () => {
     try {
