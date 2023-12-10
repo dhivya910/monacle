@@ -2,7 +2,7 @@ import { db } from "@/utils/db";
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 interface RegisterEvents {
-    eventId: number;
+    eventId: string;
     address: string;
 }
  
@@ -11,8 +11,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (req.method === 'POST') {
         const {eventId, address } = req.body;
         const newEventRegistration = {
-            address,
             eventId,
+            address,
           };
           const registeredEvent= await registerEvent(newEventRegistration)
           const event = await getEvent(eventId)
@@ -25,12 +25,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
     else if (req.method === 'GET') {
         const { id } = req.query;
-        const events = getEventsRegisteredByUser(id)
+        const events = getEventsRegisteredByUser(id as string)
         res.status(200).json({ data: events }) 
 }
 }
-async function getEvent(_id :number | any) {
-    const event = await db.collection("events").find({_id})
+async function getEvent(id :number | any) {
+    const event = await db.collection("registrations").find({eventId : id})
     return event;
 }
 

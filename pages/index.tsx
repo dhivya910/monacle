@@ -33,7 +33,7 @@ export default function Index() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: {eventId, address}
+        body: JSON.stringify( {eventId , address})
       });
 
       if (!response.ok) {
@@ -58,14 +58,8 @@ export default function Index() {
     fetchEvents("/api/event/all")
   }, [tab]);
 
-  const handleRegistration = (eventId: any) => {
-    console.log(address)
-    if (address) {
-      postEvent(eventId, address)
-    } else {
-
-    }
-
+  const handleRegistration = async (eventId: string) => {
+    await postEvent(eventId, "address")
   }
 
   return (
@@ -116,7 +110,7 @@ export default function Index() {
                     
                     </ul>
                     { new Date(event.startTime) > new Date() ?
-                        <button type="button" class="text-gray-900 bg-gray-100 font-medium rounded-full text-sm mt-4 px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700" >Register Now</button>
+                        <button type="button" class="text-gray-900 bg-gray-100 font-medium rounded-full text-sm mt-4 px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700" onClick={handleRegistration} >Register Now</button>
                     : <p className="bg-gray-700 text-sm my-4 py-1"> This Event is expired.</p>} 
                         </li>
           )) : events.map((event) => (
